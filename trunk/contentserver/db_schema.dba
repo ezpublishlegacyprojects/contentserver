@@ -1,0 +1,171 @@
+<?php
+// This array contains the database schema
+$schema = array (
+  'ezcontentserver_export' => 
+  array (
+    'name' => 'ezcontentserver_export',
+    'fields' => 
+    array (
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'expires' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'length' => 64,
+        'type' => 'char',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'modified' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'type' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'updateflag' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+          1 => 'type',
+        ),
+      ),
+    ),
+  ),
+  'ezcontentserver_import' => 
+  array (
+    'name' => 'ezcontentserver_import',
+    'fields' => 
+    array (
+      'contentobject_version' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'created' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'data' => 
+      array (
+        'type' => 'text',
+        'not_null' => '1',
+        'default' => false,
+      ),
+      'expires' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'id' => 
+      array (
+        'length' => 50,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'last_processed' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'modified' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'remote_host' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'remote_modified' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'status' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
+      'type' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'updateflag' => 
+      array (
+        'length' => 1,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
+  '_info' => 
+  array (
+    'format' => 'generic',
+  ),
+);
+
+?>

@@ -1,0 +1,3 @@
+[AdditionalMenuSettings]
+ContextMenuTemplateArray[]=node/cscontextmenu.tpl
+SubitemsContextMenuTemplateArray[]=node/cssubitemscontextmenu.tpl

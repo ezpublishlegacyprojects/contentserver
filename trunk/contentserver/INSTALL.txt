@@ -1,0 +1,127 @@
+Contentserver
+=============
+
+Version: 3.8
+Required eZ Publish version: 3.8
+
+Contentserver extension. This extension handles syncronisation of content between 2 eZ publish systems.
+
+See CHANGELOG.txt for description of changes.
+
+Installation
+============
+
+1.) PHP / Ioncube
+
+This extension is encoded you need to install and setup ioncube loader to make it working.
+
+http://www.ioncube.com/loaders.php
+
+If you system has the php dl() function enabled, you might be able to skip this step. 
+In mutil-threaded environments the dl is not avialable.
+
+2.) Common extension setup
+
+Place the extracted folder named “contentserver” in the extension folder of your eZ installation.
+
+Enable the extension in your site.ini.apppend.php
+
+[ExtensionSettings]
+ActiveExtensions[]=contentserver
+
+3.) Server instance
+
+Add the contentserver database tables to your database:
+
+php bin/php/ezsqlinsertschema.php --host=localhost --user=DATABASEUSERNAME --password=DATABASEPASSWORD --insert-types=all --type=mysql --table-charset=utf-8 --schema-file=extension/contentserver/db_schema.dba extension/contentserver/db_schema.dba DATABASENAME
+
+
+Create a list of classes that should be avialable for export.
+
+[ContentServer]
+NodeExportClassList[]
+NodeExportClassList[]=person
+NodeExportClassList[]=company
+NodeExportClassList[]=file
+SubtreeExportClassList[]
+SubtreeExportClassList[]=folder
+
+Create a new Role called “Content Exporter” with the ability to access the module
+ content server and to read and edit certain content objects. Now apply this role
+ to certain users or a group of users. Those users will later on permit that 
+ certain content can get exported.
+
+Create a new Role called “Content Importer” with the ability to read certain 
+content objects. A Content Importer may import any content into his client 
+installation that he can read and that was been marked for export before.
+
+4.) Client instance
+
+Add the contentserver database tables to your database:
+php bin/php/ezsqlinsertschema.php --host=localhost --user=DATABASEUSERNAME --password=DATABASEPASSWORD --insert-types=all --type=mysql --table-charset=utf-8 --schema-file=extension/contentserver/db_schema.dba extension/contentserver/db_schema.dba DATABASENAME
+
+Create a content.ini.append.php in your siteaccess with the following values.
+[ContentServer]
+Client=disabled
+Server=enabled
+
+Create a incomming node:
+This node is needed for content object could not be autoplaced in client system.
+php extension/contentserver/bin/createincommingnode.php -ssiteacccessname --admin-user=admin
+
+Create a content.ini.append.php in your siteaccess with the following values.
+[ContentServer]
+Client=enabled
+Server=disabled
+
+
+A new cronjob “contentserver.php” is available to your client system. Implement
+ this cron in your cronjob.ini on a regulary bases (recommended on a daily or hourly basis).
+
+Edit the content.ini.append.php and apply the content server’s hostname, you user 
+name on the remote system and your password on the remote system to it.
+
+[ContentServerSettings] 
+User=admin
+Password=publish
+Server=contentserver.example.com
+Port=80
+
+Create a user that will be the owner of the imported objects
+
+[ContentServerSettings]
+LocalSystemUser=contentserver
+
+5.) Clear cache
+
+You will have to clear all cache to see the new functionality in the eZ publish admin interface.
+
+php bin/php/ezcache.php -ssiteacccessname --clear-all
+
+Do this for all affected installations.
+
+6.) Test the setup
+
+Create new exported items in the server instance.
+
+Run "php runcronjobs.php contentserver" on the client instance.
+
+Check the incomming folder of the client system for new content.
+
+Notes
+=====
+
+The content server depends on soap functionality make sure soap is enabled in your eZ publish install.
+
+Referr to the doc/* for more details.
+
+Troubleshooting
+===============
+1.) Cron script run but doesn't import.
+When you are runnig the cron script with debug enabled you might see error in the debug output.
+
+Warning: (eZSoapResponse::stripHTTPHeader)
+missing <?xml ...> in HTTP response, attempting workaround
+
+Please deactivate all error reporting from the soap servers. 
+PHP is outputting warnings before the the XML soap response.
